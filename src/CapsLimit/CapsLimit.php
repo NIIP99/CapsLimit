@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * CapsLimit (v1.0.0)
+ * Developer: deot (Minedox Network)
+ * Website: http://deot.minedox.com
+ * Copyright & License: (C) 2015 deot
+ * Licensed under MIT (https://github.com/deotern/CapsLimit/blob/master/LICENSE)
+ */
+
 namespace CapsLimit;
 
 use pocketmine\plugin\PluginBase;
