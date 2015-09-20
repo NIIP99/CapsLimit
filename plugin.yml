@@ -1,0 +1,17 @@
+name: CapsLimit
+version: 1.0.0
+api: 1.12.0
+main: CapsLimit\CapsLimit
+author: deot
+# twitter: @deotern
+# Made by deot with <3
+
+commands:
+  capslimit:
+    description: Sets maximum caps can be used by player
+    permission: capslimit.set
+
+permissions:
+  capslimit.set:
+    description: Allow to use set default usage of maximum caps!
+    default: true
