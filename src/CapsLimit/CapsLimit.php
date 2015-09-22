@@ -32,6 +32,9 @@ class CapsLimit extends PluginBase implements Listener{
         $this->maxcaps = intval($this->getConfig()->get("max-caps"));
     }
     
+    /**
+     * @return string
+     */
     public function getPrefix(){
         return TextFormat::DARK_GREEN."[Caps".TextFormat::GREEN."Limit] ".TextFormat::WHITE;
     }
@@ -62,9 +65,7 @@ class CapsLimit extends PluginBase implements Listener{
     }
     
     /**
-     * @param PlayerChatEevnt $e
-     * @param array $args
-     * @return bool
+     * @param PlayerChatEevnt $event
      */
     public function onChat(PlayerChatEvent $event){
         $player = $event->getPlayer();
