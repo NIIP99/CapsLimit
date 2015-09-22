@@ -68,7 +68,7 @@ class CapsLimit extends PluginBase implements Listener{
         $count = 0;
         $message = $event->getMessage();
         foreach($caps as $letter){
-            if (strstr($message, $letter)) {
+            if (strpos($message, $letter)) {
                 $count++;
             }
         }
