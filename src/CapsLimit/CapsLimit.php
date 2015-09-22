@@ -18,26 +18,23 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 
 class CapsLimit extends PluginBase implements Listener{
-    
-    /** @var string */
+    /** @var int */
     private $maxcaps;
-    
     public function onEnable(){
         $this->loadConfig();
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getLogger()->info($this->getPrefix()."Maximum caps limited to ".$this->getMaxCaps());
     }
-    
     public function loadConfig(){
-        @mkdir($this->getDataFolder());
         $this->saveDefaultConfig();
-        $this->maxcaps = $this->getConfig()->get("max-caps", "3");
+        $this->maxcaps = intval($this->getConfig()->get("max-caps"));
     }
-    
+    /**
+     * @return string
+     */
     public function getPrefix(){
         return TextFormat::DARK_GREEN."[Caps".TextFormat::GREEN."Limit] ".TextFormat::WHITE;
     }
-    
     /**
      * @param CommandSender $sender
      * @param Command $command
@@ -62,11 +59,8 @@ class CapsLimit extends PluginBase implements Listener{
             $sender->sendMessage($this->getPrefix().TextFormat::RED."Value must be in positive numeric form");
             return false;
     }
-    
     /**
-     * @param PlayerChatEevnt $e
-     * @param array $args
-     * @return bool
+     * @param PlayerChatEevnt $event
      */
     public function onChat(PlayerChatEvent $event){
         $player = $event->getPlayer();
@@ -79,27 +73,22 @@ class CapsLimit extends PluginBase implements Listener{
             }
         }
             if ($count > $this->getMaxCaps()) {
-                $event->setCancelled();
+                $event->setCancelled(true);
                 $player->sendMessage(TextFormat::RED."You used too much caps!");
-                return;
             }
-            
     }
     
     /**
-     * @return string
+     * @return int
      */
     public function getMaxCaps(){
         return $this->maxcaps;
     }
-    
     public function saveConfig(){
         $this->getConfig()->set("max-caps", $this->getMaxCaps());
-        parent::saveConfig();
+        $this->getConfig()->save();
     }
-    
     public function onDisable(){
         $this->saveConfig();
     }
-
 }
