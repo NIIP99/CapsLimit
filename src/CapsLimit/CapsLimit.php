@@ -19,19 +19,17 @@ use pocketmine\command\CommandSender;
 
 class CapsLimit extends PluginBase implements Listener{
     
-    /** @var string */
+    /** @var int */
     private $maxcaps;
     
     public function onEnable(){
-        $this->loadConfig();
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getLogger()->info($this->getPrefix()."Maximum caps limited to ".$this->getMaxCaps());
     }
     
     public function loadConfig(){
-        @mkdir($this->getDataFolder());
         $this->saveDefaultConfig();
-        $this->maxcaps = $this->getConfig()->get("max-caps", "3");
+        $this->maxcaps = intval($this->getConfig()->get("max-caps"));
     }
     
     public function getPrefix(){
@@ -79,15 +77,13 @@ class CapsLimit extends PluginBase implements Listener{
             }
         }
             if ($count > $this->getMaxCaps()) {
-                $event->setCancelled();
+                $event->setCancelled(true);
                 $player->sendMessage(TextFormat::RED."You used too much caps!");
-                return;
             }
-            
     }
     
     /**
-     * @return string
+     * @return int
      */
     public function getMaxCaps(){
         return $this->maxcaps;
@@ -95,11 +91,10 @@ class CapsLimit extends PluginBase implements Listener{
     
     public function saveConfig(){
         $this->getConfig()->set("max-caps", $this->getMaxCaps());
-        parent::saveConfig();
+        $this->getConfig()->save();
     }
     
     public function onDisable(){
         $this->saveConfig();
     }
-
 }
