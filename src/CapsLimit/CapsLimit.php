@@ -18,27 +18,23 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 
 class CapsLimit extends PluginBase implements Listener{
-    
     /** @var int */
     private $maxcaps;
-    
     public function onEnable(){
+        $this->loadConfig();
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getLogger()->info($this->getPrefix()."Maximum caps limited to ".$this->getMaxCaps());
     }
-    
     public function loadConfig(){
         $this->saveDefaultConfig();
         $this->maxcaps = intval($this->getConfig()->get("max-caps"));
     }
-    
     /**
      * @return string
      */
     public function getPrefix(){
         return TextFormat::DARK_GREEN."[Caps".TextFormat::GREEN."Limit] ".TextFormat::WHITE;
     }
-    
     /**
      * @param CommandSender $sender
      * @param Command $command
@@ -63,7 +59,6 @@ class CapsLimit extends PluginBase implements Listener{
             $sender->sendMessage($this->getPrefix().TextFormat::RED."Value must be in positive numeric form");
             return false;
     }
-    
     /**
      * @param PlayerChatEevnt $event
      */
@@ -89,12 +84,10 @@ class CapsLimit extends PluginBase implements Listener{
     public function getMaxCaps(){
         return $this->maxcaps;
     }
-    
     public function saveConfig(){
         $this->getConfig()->set("max-caps", $this->getMaxCaps());
         $this->getConfig()->save();
     }
-    
     public function onDisable(){
         $this->saveConfig();
     }
