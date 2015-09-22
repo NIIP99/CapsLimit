@@ -64,12 +64,16 @@ class CapsLimit extends PluginBase implements Listener{
      */
     public function onChat(PlayerChatEvent $event){
         $player = $event->getPlayer();
-        $caps = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-        $count = 0;
         $message = $event->getMessage();
-        foreach($caps as $letter){
-            if (strpos($message, $letter)) {
-                $count++;
+        $strlen = strlen($message);
+        $asciiA = ord("A");
+        $asciiZ = ord("Z");
+        $count = 0;
+        for($i = 0; $i < $strlen; $i++){
+          $char = $message[$i];
+          $ascii = ord($char);
+            if($asciiA <= $ascii and $ascii <= $asciiZ){
+             $count++;
             }
         }
             if ($count > $this->getMaxCaps()) {
