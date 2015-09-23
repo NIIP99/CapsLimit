@@ -1,2 +1,2 @@
 # CapsLimit
-Limit the capital can be used by players in Pocketmine! :)
+![alt tag](http://s22.postimg.org/sdb8cdo29/Caps_Limit_Cover.png)
