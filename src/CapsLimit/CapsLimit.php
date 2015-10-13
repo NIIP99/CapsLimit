@@ -60,7 +60,7 @@ class CapsLimit extends PluginBase implements Listener{
             return false;
     }
     /**
-     * @param PlayerChatEevnt $event
+     * @param PlayerChatEvent $event
      */
     public function onChat(PlayerChatEvent $event){
         $player = $event->getPlayer();
@@ -76,10 +76,12 @@ class CapsLimit extends PluginBase implements Listener{
              $count++;
             }
         }
-            if ($count > $this->getMaxCaps()) {
+            if ($count > $this->getMaxCaps() and $this->getConfig()->get("Message") == "block") {
                 $event->setCancelled(true);
                 $player->sendMessage($this->getPrefix().TextFormat::RED."You used too much caps!");
-            }
+            }elseif($this->getConfig()->get("Message") === "lowercase"){
+                $event->setMessage(strtolower($message));
+        }
     }
     
     /**
