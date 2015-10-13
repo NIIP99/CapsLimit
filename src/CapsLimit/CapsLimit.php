@@ -1,7 +1,7 @@
 <?php
 
 /*
- * CapsLimit (v1.0.0)
+ * CapsLimit (v1.0.1)
  * Developer: deot (Minedox Network)
  * Website: http://deot.minedox.com
  * Copyright & License: (C) 2015 deot
@@ -76,9 +76,7 @@ class CapsLimit extends PluginBase implements Listener{
              $count++;
             }
         }
-        if($player->hasPermission("capslimit.exception")){
-            return true;
-        }else{
+        if(!$player->hasPermission("capslimit.exception")){
             if ($count > $this->getMaxCaps() and $this->getConfig()->get("action-type") == "block") {
                 $event->setCancelled(true);
                 $player->sendMessage($this->getPrefix().TextFormat::RED."You used too much caps!");
