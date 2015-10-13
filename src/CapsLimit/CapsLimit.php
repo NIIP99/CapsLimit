@@ -76,6 +76,9 @@ class CapsLimit extends PluginBase implements Listener{
              $count++;
             }
         }
+        if($player->hasPermission("capslimit.exception")){
+            return true;
+        }else{
             if ($count > $this->getMaxCaps() and $this->getConfig()->get("action-type") == "block") {
                 $event->setCancelled(true);
                 $player->sendMessage($this->getPrefix().TextFormat::RED."You used too much caps!");
@@ -83,6 +86,7 @@ class CapsLimit extends PluginBase implements Listener{
             elseif($this->getConfig()->get("action-type") === "lowercase"){
                 $event->setMessage(strtolower($message));
             }
+        }
     }
     
     /**

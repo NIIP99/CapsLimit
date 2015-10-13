@@ -14,4 +14,7 @@ commands:
 permissions:
   capslimit.set:
     description: Allow to use set default usage of maximum caps!
-    default: true
+    default: op
+  capslimit.exception:
+    description: Exception to get taken action if exceeded caps limit
+    default: op
