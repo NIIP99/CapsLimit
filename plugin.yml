@@ -1,9 +1,9 @@
 name: CapsLimit
-version: 1.0.0
+version: 1.0.1
 api: 1.10.0
 main: CapsLimit\CapsLimit
-authors: [deot, Gamecrafter]
-# twitter: @deotern
+authors: [deot]
+# Twitter: @deotern
 # Made by deot with <3
 
 commands:

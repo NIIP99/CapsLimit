@@ -1,3 +1,7 @@
 ---
+#action-type is the action will be taken if they exceeded the usage set in max-caps
+#block can block the message, lowercase can change all text to lowercase
+action-type: block
+#max-caps is the amount of the caps can be used by player
 max-caps: 3
 ...
