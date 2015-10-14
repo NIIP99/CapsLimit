@@ -1,7 +1,7 @@
 <?php
 
 /*
- * CapsLimit (v1.0.1)
+ * CapsLimit (v1.1.0)
  * Developer: deot (Minedox Network)
  * Website: http://deot.minedox.com
  * Copyright & License: (C) 2015 deot
@@ -18,23 +18,39 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 
 class CapsLimit extends PluginBase implements Listener{
+    
     /** @var int */
     private $maxcaps;
+    
+    public $simpleauth;
+    
     public function onEnable(){
         $this->loadConfig();
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getLogger()->info($this->getPrefix()."Maximum caps limited to ".$this->getMaxCaps());
+        $this->getLogger()->info($this->getPrefix()."Mode has been set to ".$this->getConfig()->get("mode")." mode!");
+        $auth = $this->getServer()->getPluginManager()->getPlugin("SimpleAuth");
+        if($auth){
+            $this->simpleauth = $auth;
+            $this->getLogger()->info($this->getPrefix()."SimpleAuth installed! Caps detection will be disabled when player hasn't auth yet!");
+        }
+        if(!$auth){
+            $this->getLogger()->info($this->getPrefix()."SimpleAuth is not installed! Caps detection will be enabled when player joined!");
+        }
     }
+    
     public function loadConfig(){
         $this->saveDefaultConfig();
         $this->maxcaps = intval($this->getConfig()->get("max-caps"));
     }
+    
     /**
      * @return string
      */
     public function getPrefix(){
         return TextFormat::DARK_GREEN."[Caps".TextFormat::GREEN."Limit] ".TextFormat::WHITE;
     }
+    
     /**
      * @param CommandSender $sender
      * @param Command $command
@@ -59,10 +75,17 @@ class CapsLimit extends PluginBase implements Listener{
             $sender->sendMessage($this->getPrefix().TextFormat::RED."Value must be in positive numeric form");
             return false;
     }
+    
     /**
      * @param PlayerChatEvent $event
      */
     public function onChat(PlayerChatEvent $event){
+        if(!$this->getServer()->getPluginManager()->getPlugin("SimpleAuth")){
+            return false;
+        }
+        if(!$this->simpleauth->isPlayerAuthenticated($event->getPlayer())){
+            return false;
+        }
         $player = $event->getPlayer();
         $message = $event->getMessage();
         $strlen = strlen($message);
@@ -77,11 +100,11 @@ class CapsLimit extends PluginBase implements Listener{
             }
         }
         if(!$player->hasPermission("capslimit.exception")){
-            if ($count > $this->getMaxCaps() and $this->getConfig()->get("action-type") == "block") {
+            if ($count > $this->getMaxCaps() and $this->getConfig()->get("mode") == "block") {
                 $event->setCancelled(true);
                 $player->sendMessage($this->getPrefix().TextFormat::RED."You used too much caps!");
             }
-            elseif($this->getConfig()->get("action-type") === "lowercase"){
+            elseif($this->getConfig()->get("mode") === "lowercase"){
                 $event->setMessage(strtolower($message));
             }
         }
@@ -93,10 +116,12 @@ class CapsLimit extends PluginBase implements Listener{
     public function getMaxCaps(){
         return $this->maxcaps;
     }
+    
     public function saveConfig(){
         $this->getConfig()->set("max-caps", $this->getMaxCaps());
         $this->getConfig()->save();
     }
+    
     public function onDisable(){
         $this->saveConfig();
     }

@@ -1,5 +1,5 @@
 name: CapsLimit
-version: 1.0.1
+version: 1.1.0
 api: 1.10.0
 main: CapsLimit\CapsLimit
 authors: [deot]
