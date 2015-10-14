@@ -4,4 +4,7 @@
 action-type: block
 #max-caps is the amount of the caps can be used by player
 max-caps: 3
+#block = block message
+#lowercase = make letters lowercase
+Message: block
 ...
