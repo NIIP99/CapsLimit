@@ -2,7 +2,7 @@ name: CapsLimit
 version: 1.1.0
 api: 1.10.0
 main: CapsLimit\CapsLimit
-authors: [deot]
+author: deot
 # Twitter: @deotern
 # Made by deot with <3
 
