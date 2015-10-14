@@ -18,12 +18,10 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 
 class CapsLimit extends PluginBase implements Listener{
-    
     /** @var int */
     private $maxcaps;
-    
+    /** @var SimpleAuth|null */
     public $simpleauth;
-    
     public function onEnable(){
         $this->loadConfig();
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
@@ -34,23 +32,20 @@ class CapsLimit extends PluginBase implements Listener{
             $this->simpleauth = $auth;
             $this->getLogger()->info($this->getPrefix()."SimpleAuth installed! Caps detection will be disabled when player hasn't auth yet!");
         }
-        if(!$auth){
+        else{
             $this->getLogger()->info($this->getPrefix()."SimpleAuth is not installed! Caps detection will be enabled when player joined!");
         }
     }
-    
     public function loadConfig(){
         $this->saveDefaultConfig();
-        $this->maxcaps = intval($this->getConfig()->get("max-caps"));
+        $this->maxcaps = (int) $this->getConfig()->get("max-caps");
     }
-    
     /**
      * @return string
      */
     public function getPrefix(){
         return TextFormat::DARK_GREEN."[Caps".TextFormat::GREEN."Limit] ".TextFormat::WHITE;
     }
-    
     /**
      * @param CommandSender $sender
      * @param Command $command
@@ -75,17 +70,10 @@ class CapsLimit extends PluginBase implements Listener{
             $sender->sendMessage($this->getPrefix().TextFormat::RED."Value must be in positive numeric form");
             return false;
     }
-    
     /**
      * @param PlayerChatEvent $event
      */
     public function onChat(PlayerChatEvent $event){
-        if(!$this->getServer()->getPluginManager()->getPlugin("SimpleAuth")){
-            return false;
-        }
-        if(!$this->simpleauth->isPlayerAuthenticated($event->getPlayer())){
-            return false;
-        }
         $player = $event->getPlayer();
         $message = $event->getMessage();
         $strlen = strlen($message);
@@ -109,19 +97,16 @@ class CapsLimit extends PluginBase implements Listener{
             }
         }
     }
-    
     /**
      * @return int
      */
     public function getMaxCaps(){
         return $this->maxcaps;
     }
-    
     public function saveConfig(){
         $this->getConfig()->set("max-caps", $this->getMaxCaps());
         $this->getConfig()->save();
     }
-    
     public function onDisable(){
         $this->saveConfig();
     }
