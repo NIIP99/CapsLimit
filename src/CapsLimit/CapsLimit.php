@@ -22,6 +22,7 @@ class CapsLimit extends PluginBase implements Listener{
     /** @var int */
     private $maxcaps;
     
+    /** @var SimpleAuth|null */
     public $simpleauth;
     
     public function onEnable(){
@@ -33,8 +34,7 @@ class CapsLimit extends PluginBase implements Listener{
         if($auth){
             $this->simpleauth = $auth;
             $this->getLogger()->info($this->getPrefix()."SimpleAuth installed! Caps detection will be disabled when player hasn't auth yet!");
-        }
-        if(!$auth){
+        }else{
             $this->getLogger()->info($this->getPrefix()."SimpleAuth is not installed! Caps detection will be enabled when player joined!");
         }
     }
@@ -103,23 +103,16 @@ class CapsLimit extends PluginBase implements Listener{
                 $event->setCancelled(true);
                 $player->sendMessage($this->getPrefix().TextFormat::RED."You used too much caps!");
             }
-            elseif($this->getConfig()->get("mode") === "lowercase"){
+            elseif($count > $this->getMaxCaps() and $this->getConfig()->get("mode") === "lowercase"){
                 $event->setMessage(strtolower($message));
             }
-            elseif($this->getConfig()->get("mode") === "kick"){
+            elseif($count > $this->getMaxCaps() and $this->getConfig()->get("mode") === "kick"){
                 $event->setCancelled(true);
                 $player->kick("You have been kicked for overused caps!");
             }
-            elseif($count > $this->getMaxCaps()
-                and $this->getConfig()->get("mode") === "custom"){
-                $cmts = $this->getConfig()->get("Customs");
-                $event->setMessage($cmts[array_rand($cmts)]);
-            }
-            }
-            if($count > $this->getMaxCaps()
-                and $this->getConfig()->getNested("Options.broadcast") === true){
+            if($count > $this->getMaxCaps() and $this->getConfig()->getNested("broadcast.enable") === true){
                 foreach($this->getServer()->getOnlinePlayers() as $p){
-                    $subject = $this->getConfig()->getNested("Options.broadcast-message");
+                    $subject = $this->getConfig()->getNested("broadcast.message");
                     $p->sendMessage($this->getPrefix().TextFormat::RED.str_replace("{PLAYER}", $player->getName(), $subject));
                 }
             }
