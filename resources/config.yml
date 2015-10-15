@@ -8,7 +8,7 @@ mode: block
 max-caps: 3
 #options
 #if broadcast is true it will broadcast broadcast-message
-#{PLAYER = player who sent the message
+#{PLAYER} = player who sent the message
 Options:
    broadcast: true
    broadcast-message: "{PLAYER} bypassed caps limit and his message was blocked by CapsLimit."
