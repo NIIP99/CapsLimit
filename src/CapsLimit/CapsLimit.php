@@ -106,6 +106,10 @@ class CapsLimit extends PluginBase implements Listener{
             elseif($this->getConfig()->get("mode") === "lowercase"){
                 $event->setMessage(strtolower($message));
             }
+            elseif($this->getConfig()->get("mode") === "kick"){
+                $event->setCancelled(true);
+                $player->kick("You have been kicked for overused caps!");
+            }
         }
     }
     

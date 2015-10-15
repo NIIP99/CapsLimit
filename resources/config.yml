@@ -1,6 +1,7 @@
 ---
 #If mode is set to block, it will block the message if player overused caps
 #If mode is set to lowercase, it will "lowerize" the message if player overused caps
+#If mode is set to kick, it will kick the player who has overused caps
 mode: block
 #max-caps is the amount of the caps can be used by player
 max-caps: 3
