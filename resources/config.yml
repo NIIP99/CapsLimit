@@ -1,7 +1,21 @@
 ---
 #If mode is set to block, it will block the message if player overused caps
 #If mode is set to lowercase, it will "lowerize" the message if player overused caps
+#If mode is set to md5, it will mix the message with numbers and letters
+#If mode is set to base64, it will scramble the message with weird symbols
+#If mode is set to custom, it will set the message to a random from Customs
 mode: block
 #max-caps is the amount of the caps can be used by player
 max-caps: 3
+#options
+#if broadcast is true it will broadcast broadcast-message
+#{PLAYER = player who sent the message
+Options:
+   broadcast: true
+   broadcast-message: "{PLAYER} bypassed caps limit and his message was blocked by CapsLimit."
+Customs:
+   - "I like ice cream"
+   - "I hate school"
+   - "deotern is awesome"
+   - "buy vip at buycraft.server.net!"
 ...
