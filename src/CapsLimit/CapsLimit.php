@@ -110,6 +110,22 @@ class CapsLimit extends PluginBase implements Listener{
                 $event->setCancelled(true);
                 $player->kick("You have been kicked for overused caps!");
             }
+            elseif($count > $this->getMaxCaps()
+                and $this->getConfig()->get("mode") === "custom"){
+                $cmts = $this->getConfig()->get("Customs");
+                $event->setMessage($cmts[array_rand($cmts)]);
+            }
+            }
+            if($count > $this->getMaxCaps()
+                and $this->getConfig()->getNested("Options.broadcast") === true){
+                foreach($this->getServer()->getOnlinePlayers() as $p){
+                    $subject = $this->getConfig()->getNested("Options.broadcast-message");
+                    $p->sendMessage($this->getPrefix().TextFormat::RED.str_replace("{PLAYER}", $player->getName(), $subject));
+                }
+            }
+            else{
+                return false;
+            }
         }
     }
     
