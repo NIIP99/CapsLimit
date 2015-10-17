@@ -80,7 +80,7 @@ class CapsLimit extends PluginBase implements Listener{
      * @param PlayerChatEvent $event
      */
     public function onChat(PlayerChatEvent $event){
-        if($this->getServer()->getPluginManager()->getPlugin("SimpleAuth")){
+        if($this->simpleauth){
             if(!$this->simpleauth->isPlayerAuthenticated($event->getPlayer())){
                 return false;
             }
